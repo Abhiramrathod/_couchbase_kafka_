@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: couchbase
+  couchbase:
+    connection-string: couchbase://127.0.0.1
+    username: Administrator
+    password: abhi@2003
+    bucket-name: abhiii
+    scope-name: "default"
+    collection-name: "default"
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      group-id: couchbase-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    topic:
+      name: couchbase-changes
