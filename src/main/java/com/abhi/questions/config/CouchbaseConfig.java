@@ -37,9 +37,4 @@ public class CouchbaseConfig {
     public Collection couchbaseCollection(CouchbaseUtils couchbaseUtils, Bucket bucket) {
         return couchbaseUtils.getCollection(bucket);
     }
-
-    @Bean
-    public CouchbaseChangeListener couchbaseChangeListener(CouchbaseUtils couchbaseUtils, KafkaProducerService kafkaProducer) {
-        return new CouchbaseChangeListener(couchbaseUtils, kafkaProducer);
-    }
 }
