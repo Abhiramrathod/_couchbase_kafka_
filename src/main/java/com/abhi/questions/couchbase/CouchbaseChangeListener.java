@@ -10,13 +10,10 @@ import com.couchbase.client.java.Collection;
 import com.couchbase.client.java.Scope;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.client.java.kv.MutationResult;
-import com.couchbase.client.java.query.QueryResult;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
@@ -97,15 +94,13 @@ public class CouchbaseChangeListener {
         }
     }
 
-    @SuppressWarnings("unchecked")
+
     public Question readDocument(int id) {
         try {
             String query = "SELECT * FROM `" + bucket.name() + "`.`" + scope.name() + "`.`" + collection.name() + "` WHERE META().id = \"" + id + "\"";
-            QueryResult result = cluster.query(query);
-            List<Object> rows = result.rowsAs(Object.class);
-            if (rows != null && !rows.isEmpty()) {
-                LinkedHashMap<String, Object> row = (LinkedHashMap<String, Object>) rows.get(0);
-                String jsonDoc = objectMapper.writeValueAsString(row.get(collection.name()));
+            List<JsonObject> result = cluster.query(query).rowsAsObject();
+            if (result != null && !result.isEmpty()) {
+                String jsonDoc = result.get(0).get(collection.name()).toString();
                 return objectMapper.readValue(jsonDoc, Question.class);
             }
         } catch (Exception e) {
