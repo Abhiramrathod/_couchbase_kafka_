@@ -12,8 +12,9 @@ pipeline {
         stage('Set up JDK 17') {
             steps {
                 script {
-                    env.JAVA_HOME = tool name: 'JDK 17', type: 'jdk'
-                    env.PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+                    withEnv(["JAVA_HOME=${tool name: 'JDK 17', type:'jdk'}", "PATH+JDK=${tool name: 'JDK 17', type: 'jdk'}/bin"]) {
+                        sh 'java -version'
+                    }
                 }
             }
         }
